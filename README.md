@@ -11,8 +11,16 @@ import bms
 bms.BMS(rootPath, targetPath, fastOrAccu)
 ```
 
+## Modify the configuration
+
+If you want faster computation time, all you need to do is set `fastOrAccu` to 0.
+Even further, you can increase the `sample_step_size` or decrease the `max_dim`.
+Or ultimately, you can dig into their source code and compile your own version.
+
 ## Time
-I ran all det00000001.png images under `/src` with current configuration, and it only cost `average_time: 0.0236342` seconds(about 42.31 fps) on my computer.
+I ran all three images under `/src` with current configuration, and it only cost `average_time: 0.0236342` seconds(about 42.31 fps) on my computer.
+
+And more evaluation on time cost is TBA.
 
 
 ## Citation
