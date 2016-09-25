@@ -11,3 +11,5 @@ Then, simply run the following code:
 import bms
 bms.BMS(rootPath, targetPath, fastOrAccu)
 ```
+# Time
+Run all three images and only cost `average_time: 0.0236342`
