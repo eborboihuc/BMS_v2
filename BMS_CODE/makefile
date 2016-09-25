@@ -1,4 +1,4 @@
-HOME=/home/koenig/src/opencv-2.4.9
+HOME=~/src/opencv-2.4.9 # change to your opencv folder
 SRCDIR=./src
 INCLDIR=./src $(HOME)/include # change to your opencv include folder
 LIBDIR=$(HOME)/build/lib # change to your opencv lib folder
