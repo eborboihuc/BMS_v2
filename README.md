@@ -3,7 +3,7 @@ A simple python wrapper of [Exploiting Surroundedness for Saliency Detection: A 
 
 ## Usage
 1. copy execute file `BMS` under `/BMS_CODE` to the same directory of `bms.py`.
-2. Store all the image (i.e., jpg, jpeg, JPG, tif, png, bmp) under `rootPath`.
+2. Store all the image <b>(i.e., jpg, jpeg, JPG, tif, png, bmp)</b> under `rootPath`.
 
 Then, simply run the following code:
 ```
@@ -11,16 +11,35 @@ import bms
 bms.BMS(rootPath, targetPath, fastOrAccu)
 ```
 
-## Modify the configuration
+## Update
 
-If you want faster computation time, all you need to do is set `fastOrAccu` to 0.
-Even further, you can increase the `sample_step_size` or decrease the `max_dim`.
-Or ultimately, you can dig into their source code and compile your own version.
+Now I add some mistake proof in source codes in order to prevent unknown system crashes.    
+1. check if an image is readable. I've noticed that if one saves images in wrong extension will cause openCV exception error.    
+2. show up message if the image is broken/not readable.    
+3. count the number of images processed.    
+    
+Example:    
+```
+Python 2.7.6 (default, Jun 22 2015, 17:58:13)
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import bms
+>>> bms.BMS('badimg','out')
+Could not open or find image 5924658195.png
+>>> bms.BMS('img','out')
+Average_time: 0.0229997 over 3 images.
+```
 
 ## Time
-I ran all three images under `/src` with current configuration, and it only cost `average_time: 0.0236342` seconds(about 42.31 fps) on my computer.
+I ran all three images under `/img` with current configuration, and it only cost `average_time: 0.0229997` seconds(about 43.48 fps) on my computer.
 
 And more evaluation on time cost is TBA.
+
+
+## Modify the configuration
+If you want faster computation time, all you need to do is set `fastOrAccu` to 0.    
+Even further, you can increase the `sample_step_size` or decrease the `max_dim`.    
+Or ultimately, you can dig into their source code and compile your own version.    
 
 
 ## Citation
