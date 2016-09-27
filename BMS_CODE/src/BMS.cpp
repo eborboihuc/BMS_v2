@@ -57,7 +57,7 @@ BMS::BMS(const Mat& src, int dw1, bool nm, bool hb, int colorSpace, bool whiteni
 
 void BMS::computeSaliency(double step)
 {
-	for (int i=0;i<mFeatureMaps.size();++i)
+	for (int i=0;i<int(mFeatureMaps.size());++i)
 	{
 		Mat bm;
 		double max_,min_;
@@ -158,7 +158,7 @@ void BMS::whitenFeatMap(const cv::Mat& img, float reg)
 	if (!mWhitening)
 	{
 		split(img, featureMaps);
-		for (int i = 0; i < featureMaps.size(); i++)
+		for (int i = 0; i < int(featureMaps.size()); i++)
 		{
 			normalize(featureMaps[i], featureMaps[i], 255.0, 0.0, NORM_MINMAX);
 			medianBlur(featureMaps[i], featureMaps[i], 3);
@@ -183,7 +183,7 @@ void BMS::whitenFeatMap(const cv::Mat& img, float reg)
 	
 	split(whitenedSrc, featureMaps);
 
-	for (int i = 0; i < featureMaps.size(); i++)
+	for (int i = 0; i < int(featureMaps.size()); i++)
 	{
 		normalize(featureMaps[i], featureMaps[i], 255.0, 0.0, NORM_MINMAX);
 		featureMaps[i].convertTo(featureMaps[i], CV_8U);

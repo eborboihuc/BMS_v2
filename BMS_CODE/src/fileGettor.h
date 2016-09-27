@@ -47,7 +47,7 @@ class FileGettor
         inline std::vector<std::string>& getFileList(){return _name_list;}
         inline bool getNextName(std::string& filename)
         {
-            if (_count<_name_list.size())
+            if (_count<int(_name_list.size()))
             {
                 filename=_name_list[_count++];
                 return true;

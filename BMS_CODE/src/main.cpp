@@ -42,7 +42,7 @@ void help()
 }
 
 
-void doWork(
+int doWork(
 	const string& in_path,
 	const string& out_path,
 	int sample_step,
@@ -63,17 +63,28 @@ void doWork(
 
 	clock_t ttt;
 	double avg_time=0;
+        int counter=0;
 	//#pragma omp parallel for
-	for (int i=0;i<file_list.size();i++)
+	for (int i=0;i<int(file_list.size());i++)
 	{
 		/* get file name */
 		string ext=getExtension(file_list[i]);
-		if (!(ext.compare("jpg")==0 || ext.compare("jpeg")==0 || ext.compare("JPG")==0 || ext.compare("tif")==0 || ext.compare("png")==0 || ext.compare("bmp")==0))
+		if (!(ext.compare("jpg")==0 || ext.compare("jpeg")==0 \
+                    || ext.compare("JPG")==0 || ext.compare("tif")==0 \
+                    || ext.compare("png")==0 || ext.compare("bmp")==0))
 			continue;
 		//cout<<file_list[i]<<"...";
 
 		/* Preprocessing */
 		Mat src=imread(in_path+file_list[i]);
+                
+                // Check for invalid input
+                if(! src.data )                              
+                {
+                    cerr << "Could not open or find image " << file_list[i] << endl;
+                    return -1;
+                }
+
 		Mat src_small;
 		float w = (float)src.cols, h = (float)src.rows;
 		float maxD = max(w,h);
@@ -100,19 +111,20 @@ void doWork(
 			int blur_width = (int)MIN(floor(blur_std) * 4 + 1, 51);
 			GaussianBlur(result, result, Size(blur_width, blur_width), blur_std, blur_std);
 		}
-
 		
 		
 		ttt=clock()-ttt;
 		float process_time=(float)ttt/CLOCKS_PER_SEC;
 		avg_time+=process_time;
+                counter++;
 		//cout<<"average_time: "<<avg_time/(i+1)<<endl;
 
 		/* Save the saliency map*/
 		resize(result,result,src.size());
 		imwrite(out_path+rmExtension(file_list[i])+".png",result);		
 	}
-	cout << "average_time: " << avg_time / file_list.size() << endl;
+	cout << "Average_time: " << avg_time / file_list.size() << " over " << counter << " images." << endl;
+        return 0;
 }
 
 
@@ -145,7 +157,8 @@ int main(int args, char** argv)
 	if (args > 9)
 		MAX_DIM				=	(float)atof(argv[9]);
 
-	doWork(INPUT_PATH,OUTPUT_PATH,SAMPLE_STEP,DILATION_WIDTH_1,DILATION_WIDTH_2,BLUR_STD,NORMALIZE,HANDLE_BORDER, COLORSPACE, WHITENING, MAX_DIM);
+        int ret = 0 ;
+	ret = doWork(INPUT_PATH,OUTPUT_PATH,SAMPLE_STEP,DILATION_WIDTH_1,DILATION_WIDTH_2,BLUR_STD,NORMALIZE,HANDLE_BORDER, COLORSPACE, WHITENING, MAX_DIM);
 
-	return 0;
+	return ret;
 }
